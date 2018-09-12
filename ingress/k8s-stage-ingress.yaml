@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+
+kind: Ingress
+
+metadata:
+  name: gke
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "neural-pub-stage-ip"
+    ingress.kubernetes.io/enable-cors: "true"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  tls:
+  - secretName: api-tls
+  backend:
+    serviceName: api
+    servicePort: api-service

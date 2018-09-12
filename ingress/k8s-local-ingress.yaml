@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+
+kind: Ingress
+
+metadata:
+  name: local
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/ssl-services: "api"
+spec:
+  tls:
+  - hosts:
+    - localhost
+    secretName: tls-certificate
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: api
+          servicePort: api-service
+      - path: /
+        backend:
+          serviceName: web
+          servicePort: web-service

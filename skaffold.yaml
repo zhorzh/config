@@ -1,0 +1,31 @@
+apiVersion: skaffold/v1alpha2
+
+kind: Config
+
+profiles:
+  - name: kafka
+    deploy:
+      kubectl:
+        manifests:
+          - ./kafka/k8s-*
+
+
+  - name: local
+    build:
+      local:
+        skipPush: true
+      artifacts:
+        - imageName: gcr.io/*******/api
+          workspace: ./api
+        - imageName: gcr.io/*******/web
+          workspace: ./web
+          docker:
+            dockerfilePath: local-Dockerfile
+    deploy:
+      kubectl:
+        manifests:
+          - ./ingress/k8s-local-*
+          - ./api/k8s-local-*
+          - ./web/k8s-local-*
+          - ./kafka/k8s-*
+

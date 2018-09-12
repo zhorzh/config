@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: api
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+
+  selector:
+    matchLabels:
+      app: api
+
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: gcr.io/********/api
+          ports:
+            - name: api-container
+              containerPort: 80
+          env:
+            - name: FLASK_APP
+              value: "/srv/app/wsgi.py"
+            - name: FLASK_DEBUG
+              value: "1"
+          command: ["flask"]
+          args: ["run", "--host=0.0.0.0", "--port=80"]
